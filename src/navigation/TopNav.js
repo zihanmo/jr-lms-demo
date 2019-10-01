@@ -1,20 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router"
 
-const TopNav = () => {
+import './styles/topNav.scss';
+
+const COURSES_URL = '/courses';
+const STUDENTS_URL = '/students';
+const LECTURERS_URL = '/lecturers';
+
+const generateLinkClass = (to, currentPath) => {
+	const navItemClass = 'nav-item';
+	const isActive = to === currentPath;
+
+	if (isActive) return `${navItemClass} nav-item--active`;
+
+	return navItemClass;
+};
+
+const TopNav = ({ location }) => {
+	const currentPath = location.pathname;
+	
 	return (
-		<nav>
-			<Link to="/courses">
+		<nav className="nav-bar">
+			<Link className={generateLinkClass(COURSES_URL, currentPath)} to={COURSES_URL}>
 				Courses
 			</Link>
-			<Link to="/students">
+			<Link className={generateLinkClass(STUDENTS_URL, currentPath)} to={STUDENTS_URL}>
 				Students
 			</Link>
-			<Link to="/lecturers">
+			<Link className={generateLinkClass(LECTURERS_URL, currentPath)} to={LECTURERS_URL}>
 				Lecturers
 			</Link>
 		</nav>
 	);
 };
 
-export default TopNav;
+export default withRouter(TopNav);
