@@ -3,16 +3,20 @@ import React from 'react';
 import CourseCard from './components/CourseCard';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import Header from '../UI/header/Header';
-
-import { courses } from '../utils/mockCourseData';
+import { COURSE_BASE_URL } from '../routes/URLMap';
+import { fetchCourses } from '../utils/fetch';
 
 class Courses extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            courses,
+            courses: [],
         };
+    }
+
+    componentDidMount() {
+        fetchCourses().then(courses => this.setState({ courses }));
     }
 
     render() {
@@ -24,9 +28,10 @@ class Courses extends React.Component {
                 <FlexContainer>
                     {this.state.courses.map(course => (
                         <CourseCard
-                            courseName={course.courseName}
-                            courseImage={course.courseImage}
-                            courseDescription={course.courseDescription}
+                            to={`${COURSE_BASE_URL}/${course.id}`}
+                            courseName={course.name}
+                            courseImage={course.image}
+                            courseDescription={course.description}
                         />
                     ))}
                 </FlexContainer> 

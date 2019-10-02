@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import '../styles/courseCardStyle.scss';
 
 const CourseCard = props => {
     return (
-        <Card className="course-card">
-            <Image src={props.courseImage} wrapped ui={false} />
+        <Card as={Link} to={props.to} className="course-card">
+            <Image src={props.courseImage} wrapped />
             <Card.Content>
                 <Card.Header>{props.courseName}</Card.Header>
                 <Card.Description>
