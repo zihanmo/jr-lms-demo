@@ -24,9 +24,15 @@ jobs:
       run: |
         npm install yarn
         rm package-lock.json
-    - name: npm install, build, and test
+    - name: yarn install, build
       run: |
         yarn install
         yarn build
+    - name: deploy to S3
+      uses: actions/aws/cli@master
+      with:
+        args: aws s3 ls s3://jr-demo
+        secrets: ${{ secrets.AWS_ACCESS_KEY_ID }}, ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       env:
-        CI: true
+        AWS_DEFAULT_REGION: us-east-2
+      
