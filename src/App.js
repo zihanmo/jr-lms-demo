@@ -15,5 +15,3 @@ function App() {
 }
 
 export default App;
-
-// Test CICD
