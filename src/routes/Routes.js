@@ -1,17 +1,24 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
+import CourseDetails from '../course/CourseDetails';
 import Courses from '../course/Courses';
 import Lectures from '../lecturer/Lecturers';
 import Students from '../student/Students';
+import {
+    COURSE_BASE_URL,
+    LECTURER_BASE_URL,
+    STUDENT_BASE_URL,
+} from './URLMap';
 
 const Routes = () => {
     return (
         <Switch>
-            <Route exact path="/" render={() => <Redirect to="/courses" />} />
-            <Route exact path="/courses" component={Courses} />
-            <Route exact path="/students" component={Students} />
-            <Route exact path="/lecturers" component={Lectures} />
+            <Redirect exact from="/" to={COURSE_BASE_URL} />
+            <Route exact path={COURSE_BASE_URL} component={Courses} />
+            <Route exact path={`${COURSE_BASE_URL}/:id`} component={CourseDetails} />
+            <Route exact path={STUDENT_BASE_URL} component={Students} />
+            <Route exact path={LECTURER_BASE_URL} component={Lectures} />
         </Switch>
     );
 };

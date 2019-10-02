@@ -1,6 +1,7 @@
 .nav-bar {
     border-bottom: solid 1px rgba(0, 0, 0, 0.2);
     padding: 1rem;
+    margin-bottom: 2rem;
 }
 
 .nav-item {
@@ -15,4 +16,5 @@
 
 .nav-item--active {
     font-weight: bold;
+    font-size: 1.2rem;
 }

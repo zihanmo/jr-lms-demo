@@ -10,7 +10,7 @@ const LECTURERS_URL = '/lecturers';
 
 const generateLinkClass = (to, currentPath) => {
 	const navItemClass = 'nav-item';
-	const isActive = to === currentPath;
+	const isActive = currentPath.includes(to);
 
 	if (isActive) return `${navItemClass} nav-item--active`;
 
