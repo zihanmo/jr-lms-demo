@@ -12,3 +12,11 @@ export const fetchCourseById = id => {
         resovle(course);
     });
 };
+
+export const saveCourseById = (id, course) => {
+    return new Promise((resolve, reject) => {
+        console.log(`Saving course with id(${id}):`, course)
+        // Do fake saving
+        resolve();
+    });
+};
