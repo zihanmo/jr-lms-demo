@@ -1,9 +1,12 @@
 import React from 'react';
-import { Button, Form, Message, Input, Segment } from 'semantic-ui-react';
+import { Button, Form, Input, Segment } from 'semantic-ui-react';
 
 import FLexContainer from '../UI/flexContainer/FlexContainer';
 import { COURSE_BASE_URL } from '../routes/URLMap';
 import { login as loginFn} from '../utils/fetch';
+import { setToken } from '../utils/auth';
+
+import './styles/login.scss';
 
 class Login extends React.Component {
     constructor(props) {
@@ -25,7 +28,7 @@ class Login extends React.Component {
     login = () => {
         this.setState({ isLoading: true }, async () => {
             const jwtToken = await loginFn(this.state.email, this.state.password);
-            localStorage.setItem('jwtToken', jwtToken);
+            setToken(jwtToken);
             this.props.history.replace(COURSE_BASE_URL);
         });
     }
@@ -33,7 +36,7 @@ class Login extends React.Component {
     render() {
         return (
             <FLexContainer justifyContentValue="center">
-                <Form size="large" loading={this.state.isLoading}>
+                <Form className="login-form" size="large" loading={this.state.isLoading}>
                     <Segment stacked>
                         <Form.Field>
                             <Input
