@@ -33,7 +33,7 @@ class Courses extends React.Component {
                     <Button as={Link} to={`${currentPath}/new`} primary>
                         Create New Course
                     </Button>
-                    <FlexContainer>
+                    <FlexContainer justifyContentValue="space-between">
                         {this.state.courses.map(course => (
                             <CourseCard
                                 courseDescription={course.description}

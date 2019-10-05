@@ -6,10 +6,12 @@ import CourseEdit from '../course/CourseEdit';
 import CourseNew from '../course/CourseNew';
 import Courses from '../course/Courses';
 import Lectures from '../lecturer/Lecturers';
+import Login from '../login/Login';
 import Students from '../student/Students';
 import {
     COURSE_BASE_URL,
     LECTURER_BASE_URL,
+    LOGIN_URL,
     STUDENT_BASE_URL,
 } from './URLMap';
 
@@ -17,6 +19,7 @@ const Routes = () => {
     return (
         <Switch>
             <Redirect exact from="/" to={COURSE_BASE_URL} />
+            <Route exact path={LOGIN_URL} component={Login} />
             <Route exact path={COURSE_BASE_URL} component={Courses} />
             <Route exact path={`${COURSE_BASE_URL}/new`} component={CourseNew} />
             <Route exact path={`${COURSE_BASE_URL}/:id`} component={CourseDetails} />

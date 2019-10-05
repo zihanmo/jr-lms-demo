@@ -36,3 +36,14 @@ export const deleteCourseById = courseId => {
         resolve();
     });
 };
+
+export const login = (email, password) => {
+    return new Promise((resolve, reject) => {
+        console.log(`Logging in user:`, email)
+        // Do fake login
+        setTimeout(() => {
+            const mockJWTToken = 'mock.JWT.token';
+            resolve(mockJWTToken);
+        }, 2000);
+    });
+};
