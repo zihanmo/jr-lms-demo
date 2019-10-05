@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button, Container } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import CourseCard from './components/CourseCard';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
@@ -20,21 +22,29 @@ class Courses extends React.Component {
     }
 
     render() {
+        const currentPath = this.props.location.pathname;
+
         return (
             <React.Fragment>
                 <Header as="h2" textAlign="center">
                     Courses
                 </Header>
-                <FlexContainer>
-                    {this.state.courses.map(course => (
-                        <CourseCard
-                            to={`${COURSE_BASE_URL}/${course.id}`}
-                            courseName={course.name}
-                            courseImage={course.image}
-                            courseDescription={course.description}
-                        />
-                    ))}
-                </FlexContainer> 
+                <Container>
+                    <Button as={Link} to={`${currentPath}/new`} primary>
+                        Create New Course
+                    </Button>
+                    <FlexContainer>
+                        {this.state.courses.map(course => (
+                            <CourseCard
+                                courseDescription={course.description}
+                                courseImage={course.image}
+                                courseName={course.name}
+                                key={course.id}
+                                to={`${COURSE_BASE_URL}/${course.id}`}
+                            />
+                        ))}
+                    </FlexContainer> 
+                </Container>
             </React.Fragment>
         );
     }

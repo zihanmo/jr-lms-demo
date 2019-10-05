@@ -20,3 +20,11 @@ export const saveCourseById = (id, course) => {
         resolve();
     });
 };
+
+export const createCourse = course => {
+    return new Promise((resolve, reject) => {
+        console.log(`Creating course:`, course)
+        // Do fake creating
+        resolve();
+    });
+};
