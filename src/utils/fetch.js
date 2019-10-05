@@ -28,3 +28,11 @@ export const createCourse = course => {
         resolve();
     });
 };
+
+export const deleteCourseById = courseId => {
+    return new Promise((resolve, reject) => {
+        console.log(`Deleting course:`, courseId)
+        // Do fake deleting
+        resolve();
+    });
+};
