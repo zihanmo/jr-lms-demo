@@ -12,3 +12,38 @@ export const fetchCourseById = id => {
         resovle(course);
     });
 };
+
+export const saveCourseById = (id, course) => {
+    return new Promise((resolve, reject) => {
+        console.log(`Saving course with id(${id}):`, course)
+        // Do fake saving
+        resolve();
+    });
+};
+
+export const createCourse = course => {
+    return new Promise((resolve, reject) => {
+        console.log(`Creating course:`, course)
+        // Do fake creating
+        resolve();
+    });
+};
+
+export const deleteCourseById = courseId => {
+    return new Promise((resolve, reject) => {
+        console.log(`Deleting course:`, courseId)
+        // Do fake deleting
+        resolve();
+    });
+};
+
+export const login = (email, password) => {
+    return new Promise((resolve, reject) => {
+        console.log(`Logging in user:`, email)
+        // Do fake login
+        setTimeout(() => {
+            const mockJWTToken = 'mock.JWT.token';
+            resolve(mockJWTToken);
+        }, 2000);
+    });
+};

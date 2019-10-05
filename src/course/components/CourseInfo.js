@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Header from '../../UI/header/Header';
+import { deleteCourseById } from '../../utils/fetch';
 
 const CourseInfo = props => {
     const currentPath = props.location.pathname;
+    const courseId = props.match.params.id;
 
     return (
         <Container textAlign="center">
@@ -19,6 +21,9 @@ const CourseInfo = props => {
             </p>
             <Button as={Link} to={`${currentPath}/edit`} primary>
                 Edit
+            </Button>
+            <Button onClick={() => deleteCourseById(courseId)} color="red">
+                Delete
             </Button>
         </Container>
     );
