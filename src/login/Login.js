@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Segment } from 'semantic-ui-react';
+import { Button, Form, Header, Input, Segment } from 'semantic-ui-react';
 
 import FLexContainer from '../UI/flexContainer/FlexContainer';
 import { COURSE_BASE_URL } from '../routes/URLMap';
@@ -37,6 +37,7 @@ class Login extends React.Component {
         return (
             <FLexContainer justifyContentValue="center">
                 <Form className="login-form" size="large" loading={this.state.isLoading}>
+                    <Header size="large" textAlign="center">Learning Management System</Header>
                     <Segment stacked>
                         <Form.Field>
                             <Input

@@ -1,4 +1,4 @@
-const JWT_TOKEN_NAME = 'jwtToken';
+const JWT_TOKEN_NAME = 'jwtToken-jr-lms';
 
 export const setToken = token => localStorage.setItem(JWT_TOKEN_NAME, token);
 

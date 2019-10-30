@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { withRouter } from "react-router"
 
 import {
@@ -13,36 +13,26 @@ import { isLoggedIn, removeToken } from '../utils/auth';
 
 import './styles/topNav.scss';
 
-const generateLinkClass = (to, currentPath) => {
-	const navItemClass = 'nav-item';
-	const isActive = currentPath.includes(to);
-
-	if (isActive) return `${navItemClass} nav-item--active`;
-
-	return navItemClass;
-};
-
 const logout = history => {
 	removeToken();
 	history.push(LOGIN_URL);
 };
 
-const TopNav = ({ history, location }) => {
-	const currentPath = location.pathname;
+const TopNav = ({ history }) => {
 
 	if (!isLoggedIn()) return null;
 	
 	return (
 		<nav className="nav-bar">
-			<Link className={generateLinkClass(COURSE_BASE_URL, currentPath)} to={COURSE_BASE_URL}>
+			<NavLink className="nav-item" activeClassName="nav-item--active" to={COURSE_BASE_URL}>
 				Courses
-			</Link>
-			<Link className={generateLinkClass(STUDENT_BASE_URL, currentPath)} to={STUDENT_BASE_URL}>
+			</NavLink>
+			<NavLink className="nav-item" activeClassName="nav-item--active" to={STUDENT_BASE_URL}>
 				Students
-			</Link>
-			<Link className={generateLinkClass(LECTURER_BASE_URL, currentPath)} to={LECTURER_BASE_URL}>
+			</NavLink>
+			<NavLink className="nav-item" activeClassName="nav-item--active" to={LECTURER_BASE_URL}>
 				Lecturers
-			</Link>
+			</NavLink>
 			<Button onClick={() => logout(history)} className="nav-logout">
 				Log out
 			</Button>
