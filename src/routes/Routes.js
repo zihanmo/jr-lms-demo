@@ -7,6 +7,7 @@ import CourseNew from '../course/CourseNew';
 import Courses from '../course/Courses';
 import Lectures from '../lecturer/Lecturers';
 import Login from '../login/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 import Students from '../student/Students';
 import {
     COURSE_BASE_URL,
@@ -20,12 +21,12 @@ const Routes = () => {
         <Switch>
             <Redirect exact from="/" to={COURSE_BASE_URL} />
             <Route exact path={LOGIN_URL} component={Login} />
-            <Route exact path={COURSE_BASE_URL} component={Courses} />
-            <Route exact path={`${COURSE_BASE_URL}/new`} component={CourseNew} />
-            <Route exact path={`${COURSE_BASE_URL}/:id`} component={CourseDetails} />
-            <Route exact path={`${COURSE_BASE_URL}/:id/edit`} component={CourseEdit} />
-            <Route exact path={STUDENT_BASE_URL} component={Students} />
-            <Route exact path={LECTURER_BASE_URL} component={Lectures} />
+            <ProtectedRoute exact path={COURSE_BASE_URL} component={Courses} />
+            <ProtectedRoute exact path={`${COURSE_BASE_URL}/new`} component={CourseNew} />
+            <ProtectedRoute exact path={`${COURSE_BASE_URL}/:id`} component={CourseDetails} />
+            <ProtectedRoute exact path={`${COURSE_BASE_URL}/:id/edit`} component={CourseEdit} />
+            <ProtectedRoute exact path={STUDENT_BASE_URL} component={Students} />
+            <ProtectedRoute exact path={LECTURER_BASE_URL} component={Lectures} />
         </Switch>
     );
 };
