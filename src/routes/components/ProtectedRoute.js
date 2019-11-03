@@ -5,7 +5,10 @@ import { isLoggedIn } from '../../utils/auth';
 import { LOGIN_URL } from '../URLMap';
 
 const ProtectedRoute = props => {
-    if (!isLoggedIn()) return <Redirect to={LOGIN_URL} />
+    if (!isLoggedIn()) return <Redirect to={{
+        pathname: LOGIN_URL,
+        state: { from: props.path },
+    }} />
 
     return <Route {...props} />;
 };

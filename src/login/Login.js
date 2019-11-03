@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Form, Header, Input, Segment } from 'semantic-ui-react';
+import { Button, Form, Header, Input, Message, Segment } from 'semantic-ui-react';
 
 import FLexContainer from '../UI/flexContainer/FlexContainer';
-import { COURSE_BASE_URL } from '../routes/URLMap';
-import { login as loginFn} from '../utils/fetch';
+import { login as loginFn } from '../utils/api/auth';
 import { setToken } from '../utils/auth';
 
 import './styles/login.scss';
@@ -14,6 +13,7 @@ class Login extends React.Component {
 
         this.state = {
             email: '',
+            error: null,
             isLoading: false,
             password: '',
         };
@@ -26,17 +26,26 @@ class Login extends React.Component {
     }
 
     login = () => {
-        this.setState({ isLoading: true }, async () => {
-            const jwtToken = await loginFn(this.state.email, this.state.password);
-            setToken(jwtToken);
-            this.props.history.replace(COURSE_BASE_URL);
+        this.setState({ error: null, isLoading: true }, () => {
+            loginFn(this.state.email, this.state.password)
+                .then(jwtToken => {
+                    this.setState({ isLoading: false }, () => {
+                        setToken(jwtToken);
+                        this.props.history.replace(this.props.location.state.from);
+                    });
+                })
+                .catch(error => this.setState({ error, isLoading: false }));
         });
     }
 
     render() {
         return (
             <FLexContainer justifyContentValue="center">
-                <Form className="login-form" size="large" loading={this.state.isLoading}>
+                <Form
+                    className="login-form" size="large"
+                    error={!!this.state.error}
+                    loading={this.state.isLoading}
+                >
                     <Header size="large" textAlign="center">Learning Management System</Header>
                     <Segment stacked>
                         <Form.Field>
@@ -60,6 +69,13 @@ class Login extends React.Component {
                                 value={this.state.password}
                             />
                         </Form.Field>
+                       {!!this.state.error && (
+                            <Message
+                                error
+                                header="Login failed"
+                                content="Please check your email and password"
+                            />
+                       )}
                         <Button
                             size="large"
                             fluid
