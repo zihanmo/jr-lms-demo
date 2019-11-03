@@ -2,7 +2,7 @@ import React from 'react';
 
 import CourseInfo from './components/CourseInfo';
 import Header from '../UI/header/Header';
-import { fetchCourseById } from '../utils/fetch';
+import { fetchCourseById } from '../utils/api/course';
 
 class CourseDetails extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class CourseDetails extends React.Component {
     }
 
     componentDidMount() {
-        const courseId = parseInt(this.props.match.params.id, 10);
+        const courseId = this.props.match.params.id;
         fetchCourseById(courseId).then(course => this.setState({ course }));
     }
 

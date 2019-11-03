@@ -8,8 +8,6 @@ import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
 import { fetchCourses } from '../utils/api/course';
 
-const mockImage = 'https://sdtimes.com/wp-content/uploads/2018/03/jW4dnFtA_400x400.jpg';
-
 class Courses extends React.Component {
     constructor(props) {
         super(props);
@@ -39,10 +37,10 @@ class Courses extends React.Component {
                         {this.state.courses.map(course => (
                             <CourseCard
                                 courseDescription={course.description}
-                                courseImage={mockImage}
+                                courseImage={course.image}
                                 courseName={course.name}
                                 key={course.code}
-                                to={`${COURSE_BASE_URL}/${course.id}`}
+                                to={`${COURSE_BASE_URL}/${course.code}`}
                             />
                         ))}
                     </FlexContainer> 

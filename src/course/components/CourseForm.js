@@ -6,6 +6,15 @@ const CourseForm = props => {
         <Container>
             <Form>
                 <Form.Field>
+                    <label>Course Code</label>
+                    <input
+                        name="code"
+                        onChange={props.handleChange}
+                        placeholder="Course Code"
+                        value={props.code}
+                    />
+                </Form.Field>
+                <Form.Field>
                     <label>Course Name</label>
                     <input
                         name="name"
