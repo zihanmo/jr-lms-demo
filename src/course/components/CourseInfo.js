@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Header from '../../UI/header/Header';
-import { deleteCourseById } from '../../utils/fetch';
+import { deleteCourseById } from '../../utils/api/course';
 
 const CourseInfo = props => {
     const currentPath = props.location.pathname;

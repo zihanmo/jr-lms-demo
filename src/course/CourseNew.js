@@ -2,13 +2,14 @@ import React from 'react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
-import { createCourse } from '../utils/fetch';
+import { createCourse } from '../utils/api/course';
 
 class CourseNew extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            code: '',
             description: '',
             image: '',
             name: '',
@@ -33,6 +34,7 @@ class CourseNew extends React.Component {
                     Create Course
                 </Header>
                 <CourseForm
+                    code={this.state.code}
                     description={this.state.description}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleCreate}

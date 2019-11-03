@@ -2,13 +2,14 @@ import React from 'react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
-import { fetchCourseById, saveCourseById } from '../utils/fetch';
+import { fetchCourseById, saveCourseById } from '../utils/api/course';
 
 class CourseEdit extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            code: '',
             description: '',
             image: '',
             name: '',
@@ -16,8 +17,9 @@ class CourseEdit extends React.Component {
     }
 
     componentDidMount() {
-        const courseId = parseInt(this.props.match.params.id, 10);
+        const courseId = this.props.match.params.id;
         fetchCourseById(courseId).then(course => this.setState({
+            code: course.code,
             description: course.description,
             image: course.image,
             name: course.name,
@@ -42,6 +44,7 @@ class CourseEdit extends React.Component {
                     Edit Course
                 </Header>
                 <CourseForm
+                    code={this.state.code}
                     description={this.state.description}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSave}

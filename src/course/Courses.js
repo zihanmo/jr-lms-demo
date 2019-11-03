@@ -6,7 +6,7 @@ import CourseCard from './components/CourseCard';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
-import { fetchCourses } from '../utils/fetch';
+import { fetchCourses } from '../utils/api/course';
 
 class Courses extends React.Component {
     constructor(props) {
@@ -39,8 +39,8 @@ class Courses extends React.Component {
                                 courseDescription={course.description}
                                 courseImage={course.image}
                                 courseName={course.name}
-                                key={course.id}
-                                to={`${COURSE_BASE_URL}/${course.id}`}
+                                key={course.code}
+                                to={`${COURSE_BASE_URL}/${course.code}`}
                             />
                         ))}
                     </FlexContainer> 
