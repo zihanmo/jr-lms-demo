@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form, Header, Input, Message, Segment } from 'semantic-ui-react';
 
 import FLexContainer from '../UI/flexContainer/FlexContainer';
+import { COURSE_BASE_URL } from '../routes/URLMap';
 import { login as loginFn } from '../utils/api/auth';
 import { setToken } from '../utils/auth';
 
@@ -31,7 +32,9 @@ class Login extends React.Component {
                 .then(jwtToken => {
                     this.setState({ isLoading: false }, () => {
                         setToken(jwtToken);
-                        this.props.history.replace(this.props.location.state.from);
+                        const locationState = this.props.location.state;
+                        const redirectTo = (locationState && locationState.from) || COURSE_BASE_URL;
+                        this.props.history.replace(redirectTo);
                     });
                 })
                 .catch(error => this.setState({ error, isLoading: false }));
