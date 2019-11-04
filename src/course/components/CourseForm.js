@@ -36,6 +36,7 @@ const CourseForm = props => {
                     <label>Course Image</label>
                     <Image size="small" src={props.image} />
                     <input
+                        disabled
                         name="image"
                         onChange={props.handleChange}
                         placeholder="Course Image"
@@ -49,7 +50,7 @@ const CourseForm = props => {
                     {props.submitButtonText}
                 </Button>
             </Form>
-        </Container> 
+        </Container>
     );
 };
 

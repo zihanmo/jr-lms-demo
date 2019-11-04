@@ -2,6 +2,7 @@ import React from 'react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
+import { COURSE_BASE_URL } from '../routes/URLMap';
 import { createCourse } from '../utils/api/course';
 
 class CourseNew extends React.Component {
@@ -24,7 +25,9 @@ class CourseNew extends React.Component {
 
     handleCreate = () => {
         const course = { ...this.state };
-        createCourse(course);
+        createCourse(course).then(newCourse => {
+            this.props.history.push(`${COURSE_BASE_URL}/${newCourse.code}`);
+        });
     }
 
     render() {
