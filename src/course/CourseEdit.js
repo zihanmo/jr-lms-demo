@@ -2,6 +2,7 @@ import React from 'react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
+import { COURSE_BASE_URL } from '../routes/URLMap';
 import { fetchCourseById, saveCourseById } from '../utils/api/course';
 
 class CourseEdit extends React.Component {
@@ -34,7 +35,9 @@ class CourseEdit extends React.Component {
 
     handleSave = () => {
         const course = { ...this.state };
-        saveCourseById(this.props.match.params.id, course);
+        const id = this.props.match.params.id;
+        saveCourseById(id, course)
+            .then(() => this.props.history.push(`${COURSE_BASE_URL}/${id}`));
     }
 
     render() {

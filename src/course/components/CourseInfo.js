@@ -4,11 +4,17 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Header from '../../UI/header/Header';
+import { COURSE_BASE_URL } from '../../routes/URLMap';
 import { deleteCourseById } from '../../utils/api/course';
 
 const CourseInfo = props => {
     const currentPath = props.location.pathname;
     const courseId = props.match.params.id;
+    const handleDeleteCourse = () => {
+        deleteCourseById(courseId).then(() => {
+            props.history.push(COURSE_BASE_URL);
+        });
+    };
 
     return (
         <Container textAlign="center">
@@ -22,7 +28,7 @@ const CourseInfo = props => {
             <Button as={Link} to={`${currentPath}/edit`} primary>
                 Edit
             </Button>
-            <Button onClick={() => deleteCourseById(courseId)} color="red">
+            <Button onClick={handleDeleteCourse} color="red">
                 Delete
             </Button>
         </Container>

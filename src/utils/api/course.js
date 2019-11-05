@@ -18,7 +18,7 @@ export const saveCourseById = (id, course) => {
 };
 
 export const createCourse = course => {
-    return post(API_COURSE_URL, course);
+    return post(API_COURSE_URL, course).then(res => res.data.data);
 };
 
 export const deleteCourseById = id => {
