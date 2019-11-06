@@ -49,7 +49,9 @@ class Login extends React.Component {
                     error={!!this.state.error}
                     loading={this.state.isLoading}
                 >
-                    <Header size="large" textAlign="center">Learning Management System</Header>
+                    <Header size="large" textAlign="center">
+                        Learning Management System
+                    </Header>
                     <Segment stacked>
                         <Form.Field>
                             <Input
