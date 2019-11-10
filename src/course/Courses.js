@@ -3,6 +3,7 @@ import { Button, Container, Pagination, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import CourseCard from './components/CourseCard';
+import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
@@ -14,6 +15,7 @@ class Courses extends React.Component {
 
         this.state = {
             courses: [],
+            error: null,
             isLoading: false,
             pagination: {},
         };
@@ -25,7 +27,9 @@ class Courses extends React.Component {
 
     loadCourses = (pageNum, pageSize) => {
         this.setState({ isLoading: true, courses: [] }, () => {
-            fetchCourses(pageNum, pageSize).then(this.updateCourseData);
+            fetchCourses(pageNum, pageSize)
+                .then(this.updateCourseData)
+                .catch(error => this.setState({ error }));
         });
     }
 
@@ -46,6 +50,7 @@ class Courses extends React.Component {
 
         return (
             <React.Fragment>
+                <ErrorMessage error={this.state.error} />
                 <Header as="h2" textAlign="center">
                     Courses
                 </Header>

@@ -15,9 +15,11 @@ const CourseInfo = props => {
 
     useEffect(() => {
         if (isDeleting) {
-            deleteCourseById(courseId).then(() => {
-                props.history.push(COURSE_BASE_URL);
-            });
+            deleteCourseById(courseId)
+                .then(() => {
+                    props.history.push(COURSE_BASE_URL);
+                })
+                .catch(props.setErrorState);
         }
     }, [isDeleting]);
 

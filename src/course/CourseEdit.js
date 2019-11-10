@@ -2,6 +2,7 @@ import React from 'react';
 import { Segment } from 'semantic-ui-react';
 
 import CourseForm from './components/CourseForm';
+import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
 import { fetchCourseById, saveCourseById } from '../utils/api/course';
@@ -13,6 +14,7 @@ class CourseEdit extends React.Component {
         this.state = {
             code: '',
             description: '',
+            error: null,
             image: '',
             isLoading: false,
             isSaving: false,
@@ -23,14 +25,16 @@ class CourseEdit extends React.Component {
     componentDidMount() {
         const courseId = this.props.match.params.id;
         this.setState({ isLoading: true }, () => {
-            fetchCourseById(courseId).then(course => this.setState({
-                code: course.code,
-                description: course.description,
-                image: course.image,
-                isLoading: false,
-                isSaving: false,
-                name: course.name,
-            }));
+            fetchCourseById(courseId)
+                .then(course => this.setState({
+                    code: course.code,
+                    description: course.description,
+                    image: course.image,
+                    isLoading: false,
+                    isSaving: false,
+                    name: course.name,
+                }))
+                .catch(error => this.setState({ error }));
         });
     }
 
@@ -45,13 +49,15 @@ class CourseEdit extends React.Component {
         const id = this.props.match.params.id;
         this.setState({ isSaving: true }, () => {
             saveCourseById(id, course)
-            .then(() => this.props.history.push(`${COURSE_BASE_URL}/${id}`));
+                .then(() => this.props.history.push(`${COURSE_BASE_URL}/${id}`))
+                .catch(error => this.setState({ error }));
         });   
     }
 
     render() {
         return (
             <React.Fragment>
+                <ErrorMessage error={this.state.error} />
                 <Header as="h2" textAlign="center">
                     Edit Course
                 </Header>
