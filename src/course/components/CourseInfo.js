@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
@@ -8,13 +8,18 @@ import { COURSE_BASE_URL } from '../../routes/URLMap';
 import { deleteCourseById } from '../../utils/api/course';
 
 const CourseInfo = props => {
+    const [isDeleting, setIsDeleting] = useState(false);
+
     const currentPath = props.location.pathname;
     const courseId = props.match.params.id;
-    const handleDeleteCourse = () => {
-        deleteCourseById(courseId).then(() => {
-            props.history.push(COURSE_BASE_URL);
-        });
-    };
+
+    useEffect(() => {
+        if (isDeleting) {
+            deleteCourseById(courseId).then(() => {
+                props.history.push(COURSE_BASE_URL);
+            });
+        }
+    }, [isDeleting]);
 
     return (
         <Container textAlign="center">
@@ -28,7 +33,7 @@ const CourseInfo = props => {
             <Button as={Link} to={`${currentPath}/edit`} primary>
                 Edit
             </Button>
-            <Button onClick={handleDeleteCourse} color="red">
+            <Button loading={isDeleting} onClick={() => setIsDeleting(true)} color="red">
                 Delete
             </Button>
         </Container>

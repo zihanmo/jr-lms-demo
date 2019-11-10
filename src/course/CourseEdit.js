@@ -1,4 +1,5 @@
 import React from 'react';
+import { Segment } from 'semantic-ui-react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
@@ -13,18 +14,24 @@ class CourseEdit extends React.Component {
             code: '',
             description: '',
             image: '',
+            isLoading: false,
+            isSaving: false,
             name: '',
         };
     }
 
     componentDidMount() {
         const courseId = this.props.match.params.id;
-        fetchCourseById(courseId).then(course => this.setState({
-            code: course.code,
-            description: course.description,
-            image: course.image,
-            name: course.name,
-        }));
+        this.setState({ isLoading: true }, () => {
+            fetchCourseById(courseId).then(course => this.setState({
+                code: course.code,
+                description: course.description,
+                image: course.image,
+                isLoading: false,
+                isSaving: false,
+                name: course.name,
+            }));
+        });
     }
 
     handleChange = event => {
@@ -36,8 +43,10 @@ class CourseEdit extends React.Component {
     handleSave = () => {
         const course = { ...this.state };
         const id = this.props.match.params.id;
-        saveCourseById(id, course)
+        this.setState({ isSaving: true }, () => {
+            saveCourseById(id, course)
             .then(() => this.props.history.push(`${COURSE_BASE_URL}/${id}`));
+        });   
     }
 
     render() {
@@ -46,15 +55,17 @@ class CourseEdit extends React.Component {
                 <Header as="h2" textAlign="center">
                     Edit Course
                 </Header>
-                <CourseForm
-                    code={this.state.code}
-                    description={this.state.description}
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleSave}
-                    image={this.state.image}
-                    name={this.state.name}
-                    submitButtonText="Save"
-                />
+                <Segment basic loading={this.state.isLoading || this.state.isSaving}>
+                    <CourseForm
+                        code={this.state.code}
+                        description={this.state.description}
+                        handleChange={this.handleChange}
+                        handleSubmit={this.handleSave}
+                        image={this.state.image}
+                        name={this.state.name}
+                        submitButtonText="Save"
+                    />
+                </Segment>
             </React.Fragment>
         );
     }

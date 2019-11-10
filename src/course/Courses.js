@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Pagination } from 'semantic-ui-react';
+import { Button, Container, Pagination, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import CourseCard from './components/CourseCard';
@@ -14,23 +14,31 @@ class Courses extends React.Component {
 
         this.state = {
             courses: [],
+            isLoading: false,
             pagination: {},
         };
     }
 
     componentDidMount() {
-        fetchCourses().then(this.updateCourseData);
+        this.loadCourses();
+    }
+
+    loadCourses = (pageNum, pageSize) => {
+        this.setState({ isLoading: true, courses: [] }, () => {
+            fetchCourses(pageNum, pageSize).then(this.updateCourseData);
+        });
     }
 
     updateCourseData = courseData => {
         this.setState({
             courses: courseData.courses,
+            isLoading: false,
             pagination: courseData.pagination,
         })
     }
 
     handlePageChange = (event, data) => {
-        fetchCourses(data.activePage).then(this.updateCourseData);
+        this.loadCourses(data.activePage);
     }
 
     render() {
@@ -45,6 +53,7 @@ class Courses extends React.Component {
                     <Button as={Link} to={`${currentPath}/new`} primary>
                         Create New Course
                     </Button>
+                    <Segment basic loading={this.state.isLoading}>
                     <FlexContainer justifyContentValue="space-between">
                         {this.state.courses.map(course => (
                             <CourseCard
@@ -56,11 +65,13 @@ class Courses extends React.Component {
                             />
                         ))}
                     </FlexContainer>
+                    </Segment>
                     {
                         this.state.pagination.page && (
                             <FlexContainer justifyContentValue="center">
                                 <Pagination
                                     activePage={this.state.pagination.page}
+                                    disabled={this.state.isLoading}
                                     onPageChange={this.handlePageChange}
                                     totalPages={this.state.pagination.pages}
                                 />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Segment } from 'semantic-ui-react';
 
 import CourseForm from './components/CourseForm';
 import Header from '../UI/header/Header';
@@ -13,6 +14,7 @@ class CourseNew extends React.Component {
             code: '',
             description: '',
             image: '',
+            isCreating: false,
             name: '',
         };
     }
@@ -25,8 +27,10 @@ class CourseNew extends React.Component {
 
     handleCreate = () => {
         const course = { ...this.state };
-        createCourse(course).then(newCourse => {
-            this.props.history.push(`${COURSE_BASE_URL}/${newCourse.code}`);
+        this.setState({ isCreating: true }, () => {
+            createCourse(course).then(newCourse => {
+                this.props.history.push(`${COURSE_BASE_URL}/${newCourse.code}`);
+            });
         });
     }
 
@@ -36,15 +40,17 @@ class CourseNew extends React.Component {
                 <Header as="h2" textAlign="center">
                     Create Course
                 </Header>
-                <CourseForm
-                    code={this.state.code}
-                    description={this.state.description}
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleCreate}
-                    image={this.state.image}
-                    name={this.state.name}
-                    submitButtonText="Create"
-                />
+                <Segment basic loading={this.state.isCreating}>
+                    <CourseForm
+                        code={this.state.code}
+                        description={this.state.description}
+                        handleChange={this.handleChange}
+                        handleSubmit={this.handleCreate}
+                        image={this.state.image}
+                        name={this.state.name}
+                        submitButtonText="Create"
+                    />
+                </Segment>
             </React.Fragment>
         );
     }
