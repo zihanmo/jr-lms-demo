@@ -21,6 +21,7 @@ const CourseInfo = props => {
                 })
                 .catch(props.setErrorState);
         }
+        // eslint-disable-next-line
     }, [isDeleting]);
 
     return (
