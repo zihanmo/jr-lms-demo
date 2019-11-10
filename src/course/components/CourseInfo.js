@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Image } from 'semantic-ui-react';
+import { Button, Container, Divider, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Header from '../../UI/header/Header';
+import StudentManagement from './StudentManagement';
 import { COURSE_BASE_URL } from '../../routes/URLMap';
 import { deleteCourseById } from '../../utils/api/course';
 
@@ -33,6 +34,8 @@ const CourseInfo = props => {
             <p>
                 {props.description}
             </p>
+            <StudentManagement />
+            <Divider />
             <Button as={Link} to={`${currentPath}/edit`} primary>
                 Edit
             </Button>

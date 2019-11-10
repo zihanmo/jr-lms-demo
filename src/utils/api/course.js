@@ -1,11 +1,18 @@
+import queryString from 'query-string';
+
 import { del, get, put, post } from './axios';
 
 const API_COURSE_URL = '/courses';
 const mockImage = 'https://sdtimes.com/wp-content/uploads/2018/03/jW4dnFtA_400x400.jpg';
 const getApiCourseUrlWithId = id => `${API_COURSE_URL}/${id}`;
 
-export const fetchCourses = (pageNum = 1, pageSize = 10) => {
-    const url = `${API_COURSE_URL}?page=${pageNum}&pageSize=${pageSize}`;
+export const fetchCourses = (pageNum = 1, pageSize = 10, query) => {
+    const stringified = queryString.stringify({
+        pageSize,
+        query,
+        page: pageNum,
+    });
+    const url = `${API_COURSE_URL}?${stringified}`;
 
     return get(url).then(res => ({
         courses: res.data.data.map(course => ({ ...course, image: mockImage })),
