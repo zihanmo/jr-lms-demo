@@ -4,8 +4,15 @@ const API_COURSE_URL = '/courses';
 const mockImage = 'https://sdtimes.com/wp-content/uploads/2018/03/jW4dnFtA_400x400.jpg';
 const getApiCourseUrlWithId = id => `${API_COURSE_URL}/${id}`;
 
-export const fetchCourses = () =>
-    get(API_COURSE_URL).then(res => res.data.data.map(course => ({ ...course, image: mockImage })));
+export const fetchCourses = (pageNum = 1, pageSize = 10) => {
+    const url = `${API_COURSE_URL}?page=${pageNum}&pageSize=${pageSize}`;
+
+    return get(url).then(res => ({
+        courses: res.data.data.map(course => ({ ...course, image: mockImage })),
+        pagination: res.data.pagination,
+    }));
+};
+    
 
 export const fetchCourseById = id => {
     const url = getApiCourseUrlWithId(id);

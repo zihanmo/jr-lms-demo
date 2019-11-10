@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Pagination } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import CourseCard from './components/CourseCard';
@@ -14,11 +14,23 @@ class Courses extends React.Component {
 
         this.state = {
             courses: [],
+            pagination: {},
         };
     }
 
     componentDidMount() {
-        fetchCourses().then(courses => this.setState({ courses }));
+        fetchCourses().then(this.updateCourseData);
+    }
+
+    updateCourseData = courseData => {
+        this.setState({
+            courses: courseData.courses,
+            pagination: courseData.pagination,
+        })
+    }
+
+    handlePageChange = (event, data) => {
+        fetchCourses(data.activePage).then(this.updateCourseData);
     }
 
     render() {
@@ -43,7 +55,18 @@ class Courses extends React.Component {
                                 to={`${COURSE_BASE_URL}/${course.code}`}
                             />
                         ))}
-                    </FlexContainer> 
+                    </FlexContainer>
+                    {
+                        this.state.pagination.page && (
+                            <FlexContainer justifyContentValue="center">
+                                <Pagination
+                                    activePage={this.state.pagination.page}
+                                    onPageChange={this.handlePageChange}
+                                    totalPages={this.state.pagination.pages}
+                                />
+                            </FlexContainer>
+                        )
+                    }
                 </Container>
             </React.Fragment>
         );
