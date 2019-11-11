@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Divider, Image } from 'semantic-ui-react';
+import { Button, Container, Divider, Image, Label, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -12,46 +12,67 @@ import { deleteCourseById } from '../../utils/api/course';
 const CourseInfo = props => {
     const [isDeleting, setIsDeleting] = useState(false);
 
-    const currentPath = props.location.pathname;
-    const courseId = props.match.params.id;
+    const {
+        assignedLecturers = [],
+        courseId,
+        description,
+        enrolledStudents = [],
+        history,
+        image,
+        isLoading,
+        location: { pathname: currentPath },
+        name,
+        reloadPage,
+        setErrorState
+    } = props;
 
     useEffect(() => {
         if (isDeleting) {
             deleteCourseById(courseId)
                 .then(() => {
-                    props.history.push(COURSE_BASE_URL);
+                    history.push(COURSE_BASE_URL);
                 })
-                .catch(props.setErrorState);
+                .catch(setErrorState);
         }
         // eslint-disable-next-line
     }, [isDeleting]);
 
     return (
         <Container textAlign="center">
-            <Image src={props.image} wrapped size="medium" />
+            <Image src={image} wrapped size="medium" />
             <Header as="h3">
-                {props.name}
+                {name}
             </Header>
-            <p>
-                {props.description}
-            </p>
-            <StudentManagement
-                courseId={props.courseId}
-                reloadPage={props.reloadPage}
-                enrolledStudents={props.enrolledStudents}
-            />
-            <LecturerManagement
-                courseId={props.courseId}
-                reloadPage={props.reloadPage}
-                assignedLecturers={props.assignedLecturers}
-            />
-            <Divider />
-            <Button as={Link} to={`${currentPath}/edit`} primary>
-                Edit
-            </Button>
-            <Button loading={isDeleting} onClick={() => setIsDeleting(true)} color="red">
-                Delete
-            </Button>
+            <Segment basic loading={isLoading}>
+                <p>
+                    {description}
+                </p>
+                <p>
+                    <span>Enrolled Students: </span>
+                    {enrolledStudents.map(student => <Label>{student.fullName}</Label>)}
+                </p>
+                <p>
+                    <span>Assigned Lecturers: </span>
+                    {assignedLecturers.map(lecturer => <Label>{lecturer.fullName}</Label>)}
+                </p>
+                <StudentManagement
+                    courseId={courseId}
+                    reloadPage={reloadPage}
+                    enrolledStudents={enrolledStudents}
+                />
+                <LecturerManagement
+                    courseId={courseId}
+                    reloadPage={reloadPage}
+                    assignedLecturers={assignedLecturers}
+                />
+                <Divider />
+                <Button as={Link} to={`${currentPath}/edit`} primary>
+                    Edit
+                </Button>
+                <Button loading={isDeleting} onClick={() => setIsDeleting(true)} color="red">
+                    Delete
+                </Button>
+            </Segment>
         </Container>
     );
 };

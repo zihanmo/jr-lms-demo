@@ -12,6 +12,7 @@ class CourseDetails extends React.Component {
         this.state = {
             course: {},
             error: null,
+            isLoading: false,
         };
     }
 
@@ -20,9 +21,11 @@ class CourseDetails extends React.Component {
         this.loadCourse(courseId);
     }
 
-    loadCourse = courseId => fetchCourseById(courseId)
-        .then(course => this.setState({ course }))
-        .catch(this.setErrorState);
+    loadCourse = courseId => this.setState({ isLoading: true }, () => {
+        fetchCourseById(courseId)
+            .then(course => this.setState({ course, isLoading: false }))
+            .catch(this.setErrorState);
+    });
 
     setErrorState = error => this.setState({ error });
 
@@ -38,6 +41,7 @@ class CourseDetails extends React.Component {
                     courseId={this.state.course.code}
                     description={this.state.course.description}
                     image={this.state.course.image}
+                    isLoading={this.state.isLoading}
                     name={this.state.course.name}
                     reloadPage={this.loadCourse}
                     setErrorState={this.setErrorState}
