@@ -2,7 +2,11 @@ import React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 
 import PersonManagement from '../../UI/personManagement/PersonManagement';
-import { fetchStudents } from '../../utils/api/student';
+import {
+    addStudentToCourse,
+    fetchStudents,
+    removeStudentToCourse
+} from '../../utils/api/student';
 
 class StudentManagement extends React.Component {
     constructor(props) {
@@ -10,6 +14,8 @@ class StudentManagement extends React.Component {
 
         this.state = {
             error: null,
+            isActionSuccessful: false,
+            isAddingOrRemoving: false,
             isSearching: false,
             pagination: {},
             studentToAdd: '',
@@ -31,7 +37,30 @@ class StudentManagement extends React.Component {
         });
     }
 
-    setStudentToAdd = studentToAdd => this.setState({ studentToAdd });
+    setStudentToAdd = studentToAdd => this.setState({ studentToAdd, isActionSuccessful: false })
+
+    setStudentToRemove = studentToRemove => this.setState({ studentToRemove, isActionSuccessful: false })
+
+    handleSuccess = () => {
+        this.setState({ isAddingOrRemoving: false, isActionSuccessful: true });
+        this.props.reloadPage(this.props.courseId);
+    }
+
+    addStudentToCourse = () => {
+        this.setState({ isAddingOrRemoving: true }, () => {
+            addStudentToCourse(this.state.studentToAdd, this.props.courseId)
+                .then(this.handleSuccess)
+                .catch(error => this.setState({ error }));
+        });
+    }
+
+    removeStudentFromCourse = () => {
+        this.setState({ isAddingOrRemoving: true }, () => {
+            removeStudentToCourse(this.state.studentToRemove, this.props.courseId)
+                .then(this.handleSuccess)
+                .catch(error => this.setState({ error }));
+        });
+    }
 
     render() {
         return (
@@ -39,10 +68,17 @@ class StudentManagement extends React.Component {
                 trigger={<Button positive>Manage Students</Button>}
             >
                 <PersonManagement
+                    error={this.state.error}
+                    handleAdd={this.addStudentToCourse}
                     handlePersonToAddChange={this.setStudentToAdd}
+                    handlePersonToRemoveChange={this.setStudentToRemove}
+                    handleRemove={this.removeStudentFromCourse}
                     handleSearchChange={this.searchStudent}
+                    isActionSuccessful={this.state.isActionSuccessful}
+                    isAddingOrRemoving={this.state.isAddingOrRemoving}
                     isSearching={this.state.isSearching}
                     personsToAdd={this.state.students}
+                    personsToRemove={this.props.enrolledStudents}
                     personToAdd={this.state.studentToAdd}
                     personToRemove={this.state.studentToRemove}
                 />

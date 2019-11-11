@@ -34,7 +34,11 @@ const CourseInfo = props => {
             <p>
                 {props.description}
             </p>
-            <StudentManagement />
+            <StudentManagement
+                courseId={props.courseId}
+                reloadPage={props.reloadPage}
+                enrolledStudents={props.enrolledStudents}
+            />
             <Divider />
             <Button as={Link} to={`${currentPath}/edit`} primary>
                 Edit

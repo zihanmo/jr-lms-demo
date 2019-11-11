@@ -17,10 +17,12 @@ class CourseDetails extends React.Component {
 
     componentDidMount() {
         const courseId = this.props.match.params.id;
-        fetchCourseById(courseId)
-            .then(course => this.setState({ course }))
-            .catch(this.setErrorState);
+        this.loadCourse(courseId);
     }
+
+    loadCourse = courseId => fetchCourseById(courseId)
+        .then(course => this.setState({ course }))
+        .catch(this.setErrorState);
 
     setErrorState = error => this.setState({ error });
 
@@ -32,10 +34,13 @@ class CourseDetails extends React.Component {
                     Course Details
                 </Header>
                 <CourseInfo
-                    name={this.state.course.name}
-                    image={this.state.course.image}
+                    courseId={this.state.course.code}
                     description={this.state.course.description}
+                    image={this.state.course.image}
+                    name={this.state.course.name}
+                    reloadPage={this.loadCourse}
                     setErrorState={this.setErrorState}
+                    enrolledStudents={this.state.course.students}
                 />
             </React.Fragment>
         );

@@ -1,26 +1,43 @@
 import React from 'react';
 import debounce from 'debounce';
-import { Button, Dropdown, Tab } from 'semantic-ui-react';
+import { Button, Dropdown, Message, Tab } from 'semantic-ui-react';
 
 const PersonManagement = ({
-    handlePersonToAddChange = () => {},
-    handleSearchChange = () => {},
+    error,
+    handleAdd,
+    handlePersonToAddChange,
+    handlePersonToRemoveChange,
+    handleRemove,
+    handleSearchChange,
+    isActionSuccessful,
+    isAddingOrRemoving,
     isSearching,
     personsToAdd = [],
     personToAdd,
+    personsToRemove = [],
+    personToRemove,
 }) => {
-    const renderAddTabContent = () => {
-        const options = personsToAdd.map(person => ({
-            key: person._id,
-            text: person.fullName,
-            value: person._id,
-        }));
+    const renderMessage = () => (
+        <>
+            {!!error && <Message negative>{error.message}</Message>}
+            {isActionSuccessful && <Message positive>Action Succeeded</Message>}
+        </>
+    );
 
-        const onSearchChange = debounce((event, { searchQuery }) => {
-            if (!isSearching && searchQuery && searchQuery.length > 2) {
-                handleSearchChange(searchQuery);
-            }
-        }, 500);
+    const onSearchChange = debounce((event, { searchQuery }) => {
+        if (!isSearching && searchQuery && searchQuery.length > 2) {
+            handleSearchChange(searchQuery);
+        }
+    }, 500);
+
+    const makeOptions = personsToAct => personsToAct.map(person => ({
+        key: person._id,
+        text: person.fullName,
+        value: person._id,
+    }));
+
+    const renderAddTabContent = () => {
+        const options = makeOptions(personsToAdd);
 
         return (
             <>
@@ -35,14 +52,34 @@ const PersonManagement = ({
                     options={options}
                     value={personToAdd}
                 />
-                <Button>Add</Button>
+                <Button loading={isAddingOrRemoving} onClick={handleAdd}>Add</Button>
+                {renderMessage()}
+            </>
+        )
+    };
+
+    const renderRemoveTabContent = () => {
+        const options = makeOptions(personsToRemove);
+
+        return (
+            <>
+                <Dropdown
+                    onChange={(event, data) => handlePersonToRemoveChange(data.value)}
+                    selection
+                    placeholder="search name"
+                    search
+                    options={options}
+                    value={personToRemove}
+                />
+                <Button loading={isAddingOrRemoving} onClick={handleRemove}>Remove</Button>
+                {renderMessage()}
             </>
         )
     };
 
     const panes = [
         { menuItem: 'Add', render: () => <Tab.Pane>{renderAddTabContent()}</Tab.Pane> },
-        { menuItem: 'Remove', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+        { menuItem: 'Remove', render: () => <Tab.Pane>{renderRemoveTabContent()}</Tab.Pane> },
     ];
 
     return <Tab panes={panes} />
