@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Header from '../../UI/header/Header';
+import LecturerManagement from './LecturerManagement';
 import StudentManagement from './StudentManagement';
 import { COURSE_BASE_URL } from '../../routes/URLMap';
 import { deleteCourseById } from '../../utils/api/course';
@@ -38,6 +39,11 @@ const CourseInfo = props => {
                 courseId={props.courseId}
                 reloadPage={props.reloadPage}
                 enrolledStudents={props.enrolledStudents}
+            />
+            <LecturerManagement
+                courseId={props.courseId}
+                reloadPage={props.reloadPage}
+                assignedLecturers={props.assignedLecturers}
             />
             <Divider />
             <Button as={Link} to={`${currentPath}/edit`} primary>

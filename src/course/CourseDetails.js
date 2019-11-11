@@ -34,6 +34,7 @@ class CourseDetails extends React.Component {
                     Course Details
                 </Header>
                 <CourseInfo
+                    assignedLecturers={this.state.course.teachers}
                     courseId={this.state.course.code}
                     description={this.state.course.description}
                     image={this.state.course.image}

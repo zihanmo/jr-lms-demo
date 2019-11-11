@@ -3,12 +3,12 @@ import { Button, Modal } from 'semantic-ui-react';
 
 import PersonManagement from '../../UI/personManagement/PersonManagement';
 import {
-    addStudentToCourse,
-    fetchStudents,
-    removeStudentToCourse
-} from '../../utils/api/student';
+    addLecturerToCourse,
+    fetchLecturers,
+    removeLecturerToCourse
+} from '../../utils/api/lecturer';
 
-class StudentManagement extends React.Component {
+class LecturerManagement extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,45 +18,45 @@ class StudentManagement extends React.Component {
             isAddingOrRemoving: false,
             isSearching: false,
             pagination: {},
-            studentToAdd: '',
-            studentToRemove: '',
-            students: [],
+            lecturerToAdd: '',
+            lecturerToRemove: '',
+            lecturers: [],
         };
     }
 
-    searchStudent = query => {
+    searchLecturer = query => {
         this.setState({ isSearching: true }, () => {
-            fetchStudents(1, 100, query)
-                .then(studentData => this.setState({
+            fetchLecturers(1, 100, query)
+                .then(lecturerData => this.setState({
                     isSearching: false,
-                    pagination: studentData.pagination,
-                    students: studentData.students,
+                    pagination: lecturerData.pagination,
+                    lecturers: lecturerData.lecturers,
                 }))
                 .catch(error => this.setState({ error }));
 
         });
     }
 
-    setStudentToAdd = studentToAdd => this.setState({ studentToAdd, isActionSuccessful: false })
+    setLecturerToAdd = lecturerToAdd => this.setState({ lecturerToAdd, isActionSuccessful: false })
 
-    setStudentToRemove = studentToRemove => this.setState({ studentToRemove, isActionSuccessful: false })
+    setLecturerToRemove = lecturerToRemove => this.setState({ lecturerToRemove, isActionSuccessful: false })
 
     handleSuccess = () => {
         this.setState({ isAddingOrRemoving: false, isActionSuccessful: true });
         this.props.reloadPage(this.props.courseId);
     }
 
-    addStudent = () => {
+    addLecturer = () => {
         this.setState({ isAddingOrRemoving: true, isActionSuccessful: false }, () => {
-            addStudentToCourse(this.state.studentToAdd, this.props.courseId)
+            addLecturerToCourse(this.state.lecturerToAdd, this.props.courseId)
                 .then(this.handleSuccess)
                 .catch(error => this.setState({ error }));
         });
     }
 
-    removeStudent = () => {
+    removeLecturer = () => {
         this.setState({ isAddingOrRemoving: true, isActionSuccessful: false }, () => {
-            removeStudentToCourse(this.state.studentToRemove, this.props.courseId)
+            removeLecturerToCourse(this.state.lecturerToRemove, this.props.courseId)
                 .then(this.handleSuccess)
                 .catch(error => this.setState({ error }));
         });
@@ -65,26 +65,26 @@ class StudentManagement extends React.Component {
     render() {
         return (
             <Modal
-                trigger={<Button positive>Manage Students</Button>}
+                trigger={<Button positive>Manage Lecturers</Button>}
             >
                 <PersonManagement
                     error={this.state.error}
-                    handleAdd={this.addStudent}
-                    handlePersonToAddChange={this.setStudentToAdd}
-                    handlePersonToRemoveChange={this.setStudentToRemove}
-                    handleRemove={this.removeStudent}
-                    handleSearchChange={this.searchStudent}
+                    handleAdd={this.addLecturer}
+                    handlePersonToAddChange={this.setLecturerToAdd}
+                    handlePersonToRemoveChange={this.setLecturerToRemove}
+                    handleRemove={this.removeLecturer}
+                    handleSearchChange={this.searchLecturer}
                     isActionSuccessful={this.state.isActionSuccessful}
                     isAddingOrRemoving={this.state.isAddingOrRemoving}
                     isSearching={this.state.isSearching}
-                    personsToAdd={this.state.students}
-                    personsToRemove={this.props.enrolledStudents}
-                    personToAdd={this.state.studentToAdd}
-                    personToRemove={this.state.studentToRemove}
+                    personsToAdd={this.state.lecturers}
+                    personsToRemove={this.props.assignedLecturers}
+                    personToAdd={this.state.lecturerToAdd}
+                    personToRemove={this.state.lecturerToRemove}
                 />
             </Modal>
         );
     }
 }
 
-export default StudentManagement;
+export default LecturerManagement;

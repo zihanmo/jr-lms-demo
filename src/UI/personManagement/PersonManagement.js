@@ -2,6 +2,8 @@ import React from 'react';
 import debounce from 'debounce';
 import { Button, Dropdown, Message, Tab } from 'semantic-ui-react';
 
+import DisappearingMessage from '../../UI/disappearingMessage/DisapperingMessage';
+
 const PersonManagement = ({
     error,
     handleAdd,
@@ -20,7 +22,7 @@ const PersonManagement = ({
     const renderMessage = () => (
         <>
             {!!error && <Message negative>{error.message}</Message>}
-            {isActionSuccessful && <Message positive>Action Succeeded</Message>}
+            {isActionSuccessful && <DisappearingMessage positive>Action Succeeded</DisappearingMessage>}
         </>
     );
 
