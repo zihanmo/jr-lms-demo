@@ -1,6 +1,8 @@
 import React from 'react';
+import { Segment } from 'semantic-ui-react';
 
 import CourseForm from './components/CourseForm';
+import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
 import { createCourse } from '../utils/api/course';
@@ -12,7 +14,9 @@ class CourseNew extends React.Component {
         this.state = {
             code: '',
             description: '',
+            error: null,
             image: '',
+            isCreating: false,
             name: '',
         };
     }
@@ -25,26 +29,33 @@ class CourseNew extends React.Component {
 
     handleCreate = () => {
         const course = { ...this.state };
-        createCourse(course).then(newCourse => {
-            this.props.history.push(`${COURSE_BASE_URL}/${newCourse.code}`);
+        this.setState({ isCreating: true }, () => {
+            createCourse(course)
+                .then(newCourse => {
+                    this.props.history.push(`${COURSE_BASE_URL}/${newCourse.code}`);
+                })
+                .catch(error => this.setState({ error }));
         });
     }
 
     render() {
         return (
             <React.Fragment>
+                <ErrorMessage error={this.state.error} />
                 <Header as="h2" textAlign="center">
                     Create Course
                 </Header>
-                <CourseForm
-                    code={this.state.code}
-                    description={this.state.description}
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleCreate}
-                    image={this.state.image}
-                    name={this.state.name}
-                    submitButtonText="Create"
-                />
+                <Segment basic loading={this.state.isCreating}>
+                    <CourseForm
+                        code={this.state.code}
+                        description={this.state.description}
+                        handleChange={this.handleChange}
+                        handleSubmit={this.handleCreate}
+                        image={this.state.image}
+                        name={this.state.name}
+                        submitButtonText="Create"
+                    />
+                </Segment>
             </React.Fragment>
         );
     }

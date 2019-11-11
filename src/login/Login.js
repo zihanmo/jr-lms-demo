@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Header, Input, Message, Segment } from 'semantic-ui-react';
 
-import FLexContainer from '../UI/flexContainer/FlexContainer';
+import FlexContainer from '../UI/flexContainer/FlexContainer';
 import { COURSE_BASE_URL } from '../routes/URLMap';
 import { login as loginFn } from '../utils/api/auth';
 import { setToken } from '../utils/auth';
@@ -43,7 +43,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <FLexContainer justifyContentValue="center">
+            <FlexContainer justifyContentValue="center">
                 <Form
                     className="login-form" size="large"
                     error={!!this.state.error}
@@ -91,7 +91,7 @@ class Login extends React.Component {
                         </Button>
                     </Segment>
                 </Form>
-            </FLexContainer>
+            </FlexContainer>
         );
     }
 };

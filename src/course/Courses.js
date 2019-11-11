@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Pagination, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import CourseCard from './components/CourseCard';
+import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
@@ -14,11 +15,34 @@ class Courses extends React.Component {
 
         this.state = {
             courses: [],
+            error: null,
+            isLoading: false,
+            pagination: {},
         };
     }
 
     componentDidMount() {
-        fetchCourses().then(courses => this.setState({ courses }));
+        this.loadCourses();
+    }
+
+    loadCourses = (pageNum, pageSize) => {
+        this.setState({ isLoading: true, courses: [] }, () => {
+            fetchCourses(pageNum, pageSize)
+                .then(this.updateCourseData)
+                .catch(error => this.setState({ error }));
+        });
+    }
+
+    updateCourseData = courseData => {
+        this.setState({
+            courses: courseData.courses,
+            isLoading: false,
+            pagination: courseData.pagination,
+        })
+    }
+
+    handlePageChange = (event, data) => {
+        this.loadCourses(data.activePage);
     }
 
     render() {
@@ -26,6 +50,7 @@ class Courses extends React.Component {
 
         return (
             <React.Fragment>
+                <ErrorMessage error={this.state.error} />
                 <Header as="h2" textAlign="center">
                     Courses
                 </Header>
@@ -33,6 +58,7 @@ class Courses extends React.Component {
                     <Button as={Link} to={`${currentPath}/new`} primary>
                         Create New Course
                     </Button>
+                    <Segment basic loading={this.state.isLoading}>
                     <FlexContainer justifyContentValue="space-between">
                         {this.state.courses.map(course => (
                             <CourseCard
@@ -43,7 +69,20 @@ class Courses extends React.Component {
                                 to={`${COURSE_BASE_URL}/${course.code}`}
                             />
                         ))}
-                    </FlexContainer> 
+                    </FlexContainer>
+                    </Segment>
+                    {
+                        this.state.pagination.page && (
+                            <FlexContainer justifyContentValue="center">
+                                <Pagination
+                                    activePage={this.state.pagination.page}
+                                    disabled={this.state.isLoading}
+                                    onPageChange={this.handlePageChange}
+                                    totalPages={this.state.pagination.pages}
+                                />
+                            </FlexContainer>
+                        )
+                    }
                 </Container>
             </React.Fragment>
         );

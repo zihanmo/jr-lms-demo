@@ -45,6 +45,7 @@ const CourseForm = props => {
                 </Form.Field>
                 <Button
                     color="green"
+                    disabled={props.isButtonDisabled}
                     onClick={props.handleSubmit}
                 >
                     {props.submitButtonText}

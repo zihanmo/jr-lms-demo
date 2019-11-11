@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+JR LMS Frontend Demo App
+
+## API Info
+
+API docs: https://jr-cms.herokuapp.com/api-docs/
 
 ## Available Scripts
 
