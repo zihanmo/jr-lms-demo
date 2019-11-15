@@ -31,7 +31,22 @@ jobs:
       run: |
         yarn install
         yarn build
+        
+    - name: upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: build/*
+        
+  deploy:
+    
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
     - name: deploy to S3
       uses: actions/aws/cli@master
       with:
