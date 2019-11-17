@@ -47,14 +47,14 @@ const CourseInfo = props => {
                 <p>
                     {description}
                 </p>
-                <p>
+                <div>
                     <span>Enrolled Students: </span>
-                    {enrolledStudents.map(student => <Label>{student.fullName}</Label>)}
-                </p>
-                <p>
+                    {enrolledStudents.map(student => <Label key={student._id}>{student.fullName}</Label>)}
+                </div>
+                <div>
                     <span>Assigned Lecturers: </span>
-                    {assignedLecturers.map(lecturer => <Label>{lecturer.fullName}</Label>)}
-                </p>
+                    {assignedLecturers.map(lecturer => <Label key={lecturer._id}>{lecturer.fullName}</Label>)}
+                </div>
                 <StudentManagement
                     courseId={courseId}
                     reloadPage={reloadPage}
