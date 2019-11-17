@@ -1,23 +1,15 @@
 import axios from 'axios';
-import { getToken } from '../auth';
 
 axios.defaults.baseURL = 'https://jr-cms.herokuapp.com/v1';
 
-const appendAuthToken = config => {
-    const jwtToken = getToken();
-    const Authorization = jwtToken && `Bearer ${jwtToken}`;
-
-    return { ...config, headers: { Authorization, ...config.header } };
-};
-
 export const get = (url, config = {}) =>
-    axios.get(url, appendAuthToken(config));
+    axios.get(url, config);
 
 export const post = (url, data, config = {}) =>
-    axios.post(url, data, appendAuthToken(config));
+    axios.post(url, data, config);
 
 export const put = (url, data, config = {}) =>
-    axios.put(url, data, appendAuthToken(config));
+    axios.put(url, data, config);
 
 export const del = (url, config = {}) =>
-    axios.delete(url, appendAuthToken(config));
+    axios.delete(url, config);
