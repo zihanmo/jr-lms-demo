@@ -37,6 +37,12 @@ const CourseInfo = props => {
         // eslint-disable-next-line
     }, [isDeleting]);
 
+    const deleteCourse = () => {
+        if (window.confirm(`Do you want to delete course ${courseId}?`)) {
+            setIsDeleting(true)
+        }
+    };
+
     return (
         <Container textAlign="center">
             <Image src={image} wrapped size="medium" />
@@ -69,7 +75,7 @@ const CourseInfo = props => {
                 <Button as={Link} to={`${currentPath}/edit`} primary>
                     Edit
                 </Button>
-                <Button loading={isDeleting} onClick={() => setIsDeleting(true)} color="red">
+                <Button loading={isDeleting} onClick={deleteCourse} color="red">
                     Delete
                 </Button>
             </Segment>
