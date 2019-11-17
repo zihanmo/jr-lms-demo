@@ -25,7 +25,7 @@ const TopNav = ({ history }) => {
 	return (
 		<nav className="nav-bar">
 			<NavLink className="nav-item" activeClassName="nav-item--active" to={COURSE_BASE_URL}>
-				Courses Nav
+				Courses
 			</NavLink>
 			<NavLink className="nav-item" activeClassName="nav-item--active" to={STUDENT_BASE_URL}>
 				Students
