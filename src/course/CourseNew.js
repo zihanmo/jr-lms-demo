@@ -5,7 +5,7 @@ import CourseForm from './components/CourseForm';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
-import { createCourse } from '../utils/api/course';
+import { createCourse } from '../api/course';
 
 class CourseNew extends React.Component {
     constructor(props) {

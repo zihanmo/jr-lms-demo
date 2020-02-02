@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../auth';
+import { getToken } from '../utils/auth';
 
 axios.defaults.baseURL = 'https://jr-cms.herokuapp.com/v1';
 

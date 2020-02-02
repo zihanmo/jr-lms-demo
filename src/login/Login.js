@@ -3,7 +3,7 @@ import { Button, Form, Header, Input, Message, Segment } from 'semantic-ui-react
 
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import { COURSE_BASE_URL } from '../routes/URLMap';
-import { login as loginFn } from '../utils/api/auth';
+import { login as loginFn } from '../api/auth';
 import { setToken } from '../utils/auth';
 
 import './styles/login.scss';

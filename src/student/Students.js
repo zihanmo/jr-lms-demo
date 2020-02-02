@@ -4,7 +4,7 @@ import { Container, Item, Segment } from 'semantic-ui-react';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
 import PersonInfo from '../UI/personInfo/PersonInfo';
-import { fetchStudents } from '../utils/api/student';
+import { fetchStudents } from '../api/student';
 
 class Students extends React.Component {
     constructor(props) {

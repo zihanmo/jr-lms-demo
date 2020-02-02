@@ -1,5 +1,9 @@
 JR LMS Frontend Demo App
 
+#### Test credentials:
+joey@test.com
+123456
+
 ## API Info
 
 API docs: https://jr-cms.herokuapp.com/api-docs/

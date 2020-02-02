@@ -6,7 +6,7 @@ import {
     addStudentToCourse,
     fetchStudents,
     removeStudentToCourse
-} from '../../utils/api/student';
+} from '../../api/student';
 
 class StudentManagement extends React.Component {
     constructor(props) {

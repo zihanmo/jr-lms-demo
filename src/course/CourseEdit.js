@@ -5,7 +5,7 @@ import CourseForm from './components/CourseForm';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
-import { fetchCourseById, saveCourseById } from '../utils/api/course';
+import { fetchCourseById, saveCourseById } from '../api/course';
 
 class CourseEdit extends React.Component {
     constructor(props) {

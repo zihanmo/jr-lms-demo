@@ -7,7 +7,7 @@ import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import FlexContainer from '../UI/flexContainer/FlexContainer';
 import Header from '../UI/header/Header';
 import { COURSE_BASE_URL } from '../routes/URLMap';
-import { fetchCourses } from '../utils/api/course';
+import { fetchCourses } from '../api/course';
 
 class Courses extends React.Component {
     constructor(props) {
