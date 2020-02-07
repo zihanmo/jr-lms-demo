@@ -6,7 +6,7 @@ import {
     addLecturerToCourse,
     fetchLecturers,
     removeLecturerToCourse
-} from '../../utils/api/lecturer';
+} from '../../api/lecturer';
 
 class LecturerManagement extends React.Component {
     constructor(props) {

@@ -3,7 +3,7 @@ import React from 'react';
 import CourseInfo from './components/CourseInfo';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 import Header from '../UI/header/Header';
-import { fetchCourseById } from '../utils/api/course';
+import { fetchCourseById } from '../api/course';
 
 class CourseDetails extends React.Component {
     constructor(props) {
