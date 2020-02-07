@@ -10,27 +10,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x]
-
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: install yarn
-      run: |
-        npm install yarn
-        rm package-lock.json
+    - name: Install dependencies
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: install
 
-    - name: install dependencies, build
-      run: |
-        yarn install
-        yarn build
+    - name: Build artifact
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: build
         
     - name: upload artifact
       uses: actions/upload-artifact@master
@@ -38,14 +34,26 @@ jobs:
         name: build
         path: build
         
-  deploy:
-    needs: build
-    
+  test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      uses: borales/actions-yarn@v2.0.0
+      with:
+          cmd: install
+
+    - name: Run tests
+      uses: borales/actions-yarn@v2.0.0
+      with:
+          cmd: test
+        
+  deploy:
+    needs: [build, test]
+    
+    runs-on: ubuntu-latest
 
     steps:
     - name: download artifact
@@ -54,9 +62,9 @@ jobs:
         name: build
       
     - name: deploy to S3
-      uses: actions/aws/cli@master
-      with:
-        args: s3 cp build s3://jr-web-demo/ --recursive
+      run: |
+        aws s3 rm s3://jr-web-demo --recursive
+        aws s3 cp build s3://jr-web-demo/ --recursive
       env:
         AWS_DEFAULT_REGION: ap-southeast-2
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
